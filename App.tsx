@@ -8,6 +8,7 @@ import Calendar from './src/screens/Calendar'
 import CalendarScreen from './src/screens/Calendar'
 import GoogleScanner from './src/screens/GoogleScanner'
 import Scanner from './src/screens/Scanner'
+import AnimatedTextInput from './src/screens/AnimatedTextInput'
 //import SplashScreen from 'react-native-splash-screen'
 
 const Stack=createNativeStackNavigator()
@@ -39,6 +40,9 @@ const App = () => {
             animation:'slide_from_bottom'
           }}/>
            <Stack.Screen name='Scanner' component={Scanner} options={{
+            animation:'slide_from_bottom'
+          }}/>
+          <Stack.Screen name='AnimatedTextInput' component={AnimatedTextInput} options={{
             animation:'slide_from_bottom'
           }}/>
         </Stack.Navigator>

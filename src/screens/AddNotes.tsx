@@ -26,7 +26,7 @@ const AddNotes = ({ navigation, route }: any) => {
 
     const d = new Date();
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    const Screens:any = ['ChatStack', 'CalendarScreen', 'GoogleScanner']
+    const Screens: any = ['ChatStack', 'CalendarScreen', 'GoogleScanner',"AnimatedTextInput"]
     const { data, index }: any = route?.params
 
     useEffect(() => {
@@ -179,13 +179,13 @@ const AddNotes = ({ navigation, route }: any) => {
         navigation.navigate('Home')
     }
 
-    const AnimatedButton = ({data}:any) => {
+    const AnimatedButton = ({ data }: any) => {
         return (
-            <TouchableWithoutFeedback  style={{ alignItems: 'center', alignSelf: 'center' }} onPressIn={() => navigation.navigate(data)} onPressOut={onButtonUp}>
+            <TouchableWithoutFeedback style={{ alignItems: 'center', alignSelf: 'center' }} onPressIn={() => navigation.navigate(data)} onPressOut={onButtonUp}>
                 <View style={styles.outer}>
                     <Animated.View style={[styles.height, heightStyle]}>
                         <Animated.View style={[styles.inner, innerStyle]}>
-                            <Text style={styles.white}>{data.slice(0,10)}</Text>
+                            <Text style={styles.white}>{data.slice(0, 10)}</Text>
                         </Animated.View>
                     </Animated.View>
                 </View>
@@ -254,30 +254,10 @@ const AddNotes = ({ navigation, route }: any) => {
                         </View>
                     </TouchableWithoutFeedback>}
             </View>
-            {/* <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:'auto'}}>
-            <TouchableWithoutFeedback style={{ alignItems: 'center', alignSelf: 'center' }} onPressIn={() => navigation.navigate('ChatStack')} onPressOut={onButtonUp}>
-                <View style={styles.outer}>
-                    <Animated.View style={[styles.height, heightStyle]}>
-                        <Animated.View style={[styles.inner, innerStyle]}>
-                            <Text style={styles.white}>Chat</Text>
-                        </Animated.View>
-                    </Animated.View>
-                </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback style={{ alignItems: 'center', alignSelf: 'center' }} onPressIn={() => navigation.navigate('Calendar')} onPressOut={onButtonUp}>
-                <View style={styles.outer}>
-                    <Animated.View style={[styles.height, heightStyle]}>
-                        <Animated.View style={[styles.inner, innerStyle]}>
-                            <Text style={styles.white}>Calender</Text>
-                        </Animated.View>
-                    </Animated.View>
-                </View>
-            </TouchableWithoutFeedback>
-            </View> */}
-            <View style={{flexDirection:'row',justifyContent:'space-evenly',marginTop:30}}>
-            {Screens.map((data:string,index:number)=>{
-                return <AnimatedButton data={data} index={index}/>
-            })}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', flexWrap: 'wrap',marginTop:30 }}>
+                {Screens.map((data:any, index:any) => (
+                    <AnimatedButton key={index} data={data} index={index} />
+                ))}
             </View>
             <Modal visible={visible} transparent={true} animationType='fade'>
                 <TouchableWithoutFeedback onPress={() => setVisible(false)}>
