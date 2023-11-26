@@ -15,7 +15,7 @@ This project was developed using the following technologies:
 Clone the project and navigate to its folder.
 
 ```bash
-$ git clone https://github.com/Notes.git
+$ git clone https://github.com/Nikhithkumar/NotesApp.git
 $ cd Notes
 
 
@@ -24,7 +24,7 @@ $ cd Notes
 Clone o projeto e acesse a pasta do mesmo.
 
 ```bash
-$ git clone https://github.com//Notes.git
+$ git clone https://github.com/Nikhithkumar/NotesApp.git
 $ cd Notes
 ```
 
@@ -161,6 +161,6 @@ Debug and fix any issues that may arise.
 
 This project is under the MIT license. See the LICENSE file for more details.
 
-Make sure to replace `<repository_url>` with the actual URL of your repository, and customize any other placeholders in the documentation to match your project's specifics.
+Make sure to replace `(https://github.com/Nikhithkumar/NotesApp.git)` with the actual URL of your repository, and customize any other placeholders in the documentation to match your project's specifics.
 
 With this README.md, users will have clear instructions on how to install, run, and build your React Native Notes App for various platforms.
