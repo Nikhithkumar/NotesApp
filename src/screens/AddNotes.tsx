@@ -1,19 +1,22 @@
-import { StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity,Dimensions, 
-    TouchableWithoutFeedback, Modal } from 'react-native'
+import {
+    StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Dimensions,
+    TouchableWithoutFeedback, Modal, FlatList
+} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useStore } from '../store/store'
 import uuid from 'react-native-uuid';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
-const w=Dimensions.get('window').width
+const w = Dimensions.get('window').width
 
 const AddNotes = ({ navigation, route }: any) => {
+
     const value = useSharedValue(0)
-    const update=useSharedValue(0)
+    const update = useSharedValue(0)
     const [title, setTitle]: any = useState('')
     const [discription, setDiscription]: any = useState('')
-    const [error,setError]=useState('')
+    const [error, setError] = useState('')
     const [category, setCategory]: any = useState('')
     const [editData, setEditData]: any = useState(false)
     const [visible, setVisible] = useState(false)
@@ -23,7 +26,7 @@ const AddNotes = ({ navigation, route }: any) => {
 
     const d = new Date();
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
+    const Screens:any = ['ChatStack', 'CalendarScreen', 'GoogleScanner']
     const { data, index }: any = route?.params
 
     useEffect(() => {
@@ -68,7 +71,7 @@ const AddNotes = ({ navigation, route }: any) => {
         }
     })
 
-    const updateInnerStyle=useAnimatedStyle(() => {
+    const updateInnerStyle = useAnimatedStyle(() => {
         const borderRadius = interpolate(
             update.value, [0, 1], [12, 16]
         )
@@ -86,31 +89,31 @@ const AddNotes = ({ navigation, route }: any) => {
 
     const handlePress = (type: string) => {
 
-        if(type == "AddNote"){
+        if (type == "AddNote") {
             value.value = withTiming(1, {
                 duration: 100
             })
-            setTimeout(()=>{
+            setTimeout(() => {
                 submitButton();
-            },300)
+            }, 300)
         }
-        else if(type=="Update"){
+        else if (type == "Update") {
             update.value = withTiming(1, {
                 duration: 100
             })
-            setTimeout(()=>{
+            setTimeout(() => {
                 updateNote()
-            },300)
-           
+            }, 300)
+
         }
         else if (type == "Delete") {
             value.value = withTiming(1, {
                 duration: 100
             })
-            setTimeout(()=>{
+            setTimeout(() => {
                 deleteNote()
-            },300)
-            
+            }, 300)
+
         }
 
     }
@@ -176,6 +179,20 @@ const AddNotes = ({ navigation, route }: any) => {
         navigation.navigate('Home')
     }
 
+    const AnimatedButton = ({data}:any) => {
+        return (
+            <TouchableWithoutFeedback  style={{ alignItems: 'center', alignSelf: 'center' }} onPressIn={() => navigation.navigate(data)} onPressOut={onButtonUp}>
+                <View style={styles.outer}>
+                    <Animated.View style={[styles.height, heightStyle]}>
+                        <Animated.View style={[styles.inner, innerStyle]}>
+                            <Text style={styles.white}>{data.slice(0,10)}</Text>
+                        </Animated.View>
+                    </Animated.View>
+                </View>
+            </TouchableWithoutFeedback>
+        )
+    }
+
     return (
         <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='always' keyboardDismissMode='interactive'>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -237,18 +254,45 @@ const AddNotes = ({ navigation, route }: any) => {
                         </View>
                     </TouchableWithoutFeedback>}
             </View>
+            {/* <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:'auto'}}>
+            <TouchableWithoutFeedback style={{ alignItems: 'center', alignSelf: 'center' }} onPressIn={() => navigation.navigate('ChatStack')} onPressOut={onButtonUp}>
+                <View style={styles.outer}>
+                    <Animated.View style={[styles.height, heightStyle]}>
+                        <Animated.View style={[styles.inner, innerStyle]}>
+                            <Text style={styles.white}>Chat</Text>
+                        </Animated.View>
+                    </Animated.View>
+                </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback style={{ alignItems: 'center', alignSelf: 'center' }} onPressIn={() => navigation.navigate('Calendar')} onPressOut={onButtonUp}>
+                <View style={styles.outer}>
+                    <Animated.View style={[styles.height, heightStyle]}>
+                        <Animated.View style={[styles.inner, innerStyle]}>
+                            <Text style={styles.white}>Calender</Text>
+                        </Animated.View>
+                    </Animated.View>
+                </View>
+            </TouchableWithoutFeedback>
+            </View> */}
+            <View style={{flexDirection:'row',justifyContent:'space-evenly',marginTop:30}}>
+            {Screens.map((data:string,index:number)=>{
+                return <AnimatedButton data={data} index={index}/>
+            })}
+            </View>
             <Modal visible={visible} transparent={true} animationType='fade'>
                 <TouchableWithoutFeedback onPress={() => setVisible(false)}>
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} >
-                        <View style={{ width: w - 60, height: 120, borderRadius: 20, paddingVertical: 20, backgroundColor: '#0C0F14', alignItems: 'center',
-                        justifyContent: 'space-between',borderColor:'#FFF',borderWidth:1, }}>
+                        <View style={{
+                            width: w - 60, height: 120, borderRadius: 20, paddingVertical: 20, backgroundColor: '#0C0F14', alignItems: 'center',
+                            justifyContent: 'space-between', borderColor: '#FFF', borderWidth: 1,
+                        }}>
                             <Text style={{ fontSize: 20, color: '#FFF', fontWeight: '800' }}>{error}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                 <TouchableOpacity style={{
-                                    backgroundColor:'#D17842' , width: 60, height: 40, borderRadius: 10,
+                                    backgroundColor: '#D17842', width: 60, height: 40, borderRadius: 10,
                                     alignItems: 'center', justifyContent: 'center', alignSelf: 'center'
                                 }} onPress={() => setVisible(false)}>
-                                    <Text style={{ textAlign: 'right', fontWeight: 'bold', color:'#FFF' }}>Close</Text>
+                                    <Text style={{ textAlign: 'right', fontWeight: 'bold', color: '#FFF' }}>Close</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -320,7 +364,6 @@ const styles = StyleSheet.create({
     outer: {
         padding: 10,
         borderRadius: 14,
-        backgroundColor: "rgba(0,0,0,0.65)",
         height: 60,
         width: 150,
         marginTop: 'auto',
