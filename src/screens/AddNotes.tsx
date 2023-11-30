@@ -1,14 +1,18 @@
 import {
     StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Dimensions,
-    TouchableWithoutFeedback, Modal, FlatList
+    TouchableWithoutFeedback, Modal, FlatList, Appearance
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useStore } from '../store/store'
 import uuid from 'react-native-uuid';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { COLORS } from '../constants/Colors';
+import { useSelector } from 'react-redux';
 
 const w = Dimensions.get('window').width
+const colorScheme = Appearance.getColorScheme();
+console.log(colorScheme)
 
 const AddNotes = ({ navigation, route }: any) => {
 
@@ -23,10 +27,11 @@ const AddNotes = ({ navigation, route }: any) => {
     const addToNote = useStore((state: any) => state.addToNote);
     const deleteToNote = useStore((state: any) => state.deleteNote)
     const updateToNote = useStore((state: any) => state.updateNote)
-
+    const Theme = useSelector((state: any) => state.theme.data)
+    
     const d = new Date();
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    const Screens: any = ['ChatStack', 'CalendarScreen', 'GoogleScanner',"AnimatedTextInput"]
+    const Screens: any = ['ChatStack', 'Calendar', 'GoogleScanner',"AnimatedTextInput"]
     const { data, index }: any = route?.params
 
     useEffect(() => {
@@ -185,7 +190,7 @@ const AddNotes = ({ navigation, route }: any) => {
                 <View style={styles.outer}>
                     <Animated.View style={[styles.height, heightStyle]}>
                         <Animated.View style={[styles.inner, innerStyle]}>
-                            <Text style={styles.white}>{data.slice(0, 10)}</Text>
+                            <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>{data.slice(0, 10)}</Text>
                         </Animated.View>
                     </Animated.View>
                 </View>
@@ -197,7 +202,7 @@ const AddNotes = ({ navigation, route }: any) => {
         <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='always' keyboardDismissMode='interactive'>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <AntDesign name='arrowleft' color={'#FFF'} size={20} />
+                    <AntDesign name='arrowleft' color={COLORS[Theme].PRIMARY_WHITE} size={20} />
                 </TouchableOpacity>
                 <Text style={styles.Heading}>{data != null ? "UPDATE NOTE" : "ADD NOTE"}</Text>
             </View>
@@ -205,19 +210,19 @@ const AddNotes = ({ navigation, route }: any) => {
                 <TextInput placeholder="ADD TITLE..."
                     value={title}
                     style={styles.Input}
-                    placeholderTextColor="#FFF"
+                    placeholderTextColor={COLORS[Theme].PRIMARY_WHITE}
                     onChangeText={(text) => setTitle(text)}
                 />
                 <TextInput placeholder="ADD CATEGORY..."
                     value={category}
                     style={styles.Input}
-                    placeholderTextColor="#FFF"
+                    placeholderTextColor={COLORS[Theme].PRIMARY_WHITE}
                     onChangeText={(text) => setCategory(text)}
                 />
                 <TextInput underlineColorAndroid="transparent"
                     placeholder="ADD DESCRIPTION..."
                     value={discription}
-                    placeholderTextColor="#FFF"
+                    placeholderTextColor={COLORS[Theme].PRIMARY_WHITE}
                     style={styles.TextInputDescription}
                     onChangeText={(text) => setDiscription(text)}
                     multiline={true}
@@ -228,7 +233,7 @@ const AddNotes = ({ navigation, route }: any) => {
                             <View style={styles.outer}>
                                 <Animated.View style={[styles.height, heightStyle]}>
                                     <Animated.View style={[styles.inner, innerStyle]}>
-                                        <Text style={styles.white}>Delete Note</Text>
+                                        <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>Delete Note</Text>
                                     </Animated.View>
                                 </Animated.View>
                             </View>
@@ -237,7 +242,7 @@ const AddNotes = ({ navigation, route }: any) => {
                             <View style={styles.outer}>
                                 <Animated.View style={[styles.height, updateStyle]}>
                                     <Animated.View style={[styles.inner, updateInnerStyle]}>
-                                        <Text style={styles.white}>Update Note</Text>
+                                        <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>Update Note</Text>
                                     </Animated.View>
                                 </Animated.View>
                             </View>
@@ -248,7 +253,7 @@ const AddNotes = ({ navigation, route }: any) => {
                         <View style={styles.outer}>
                             <Animated.View style={[styles.height, heightStyle]}>
                                 <Animated.View style={[styles.inner, innerStyle]}>
-                                    <Text style={styles.white}>Add Note</Text>
+                                    <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>Add Note</Text>
                                 </Animated.View>
                             </Animated.View>
                         </View>
@@ -263,16 +268,16 @@ const AddNotes = ({ navigation, route }: any) => {
                 <TouchableWithoutFeedback onPress={() => setVisible(false)}>
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
-                            width: w - 60, height: 120, borderRadius: 20, paddingVertical: 20, backgroundColor: '#0C0F14', alignItems: 'center',
-                            justifyContent: 'space-between', borderColor: '#FFF', borderWidth: 1,
+                            width: w - 60, height: 120, borderRadius: 20, paddingVertical: 20, backgroundColor: COLORS[Theme].LIGHT_BLACK, alignItems: 'center',
+                            justifyContent: 'space-between', borderColor: COLORS[Theme].PRIMARY_WHITE, borderWidth: 1
                         }}>
-                            <Text style={{ fontSize: 20, color: '#FFF', fontWeight: '800' }}>{error}</Text>
+                            <Text style={{ fontSize: 20, color: COLORS[Theme].PRIMARY_WHITE, fontWeight: '800' }}>{error}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                 <TouchableOpacity style={{
-                                    backgroundColor: '#D17842', width: 60, height: 40, borderRadius: 10,
+                                    backgroundColor:COLORS[Theme].ORANGE, width: 60, height: 40, borderRadius: 10,
                                     alignItems: 'center', justifyContent: 'center', alignSelf: 'center'
                                 }} onPress={() => setVisible(false)}>
-                                    <Text style={{ textAlign: 'right', fontWeight: 'bold', color: '#FFF' }}>Close</Text>
+                                    <Text style={{ textAlign: 'right', fontWeight: 'bold', color:COLORS[Theme].TEXT}}>Close</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -283,17 +288,16 @@ const AddNotes = ({ navigation, route }: any) => {
     )
 }
 
-export default AddNotes
 
-const styles = StyleSheet.create({
+const getStyles=(Theme:number) =>StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#0C0F14',
+        backgroundColor: COLORS[Theme].PRIMARY_BLACK,
     },
     Heading: {
         fontSize: 20,
-        color: '#FFF',
+        color: COLORS[Theme].PRIMARY_WHITE,
         textAlign: 'center',
         fontWeight: 'bold',
         margin: 20,
@@ -303,7 +307,7 @@ const styles = StyleSheet.create({
         padding: 20,
         gap: 10,
         borderRadius: 10,
-        borderColor: '#FFF',
+        borderColor: COLORS[Theme].PRIMARY_WHITE,
         borderWidth: 1,
     },
     Input: {
@@ -311,25 +315,25 @@ const styles = StyleSheet.create({
         borderColor: '#FFF',
         paddingLeft: 10,
         fontSize: 16,
-        color: '#FFF',
+        color: COLORS[Theme].PRIMARY_WHITE,
         justifyContent: 'flex-start'
     },
     TextInputDescription: {
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: '#FFF',
+        borderColor: COLORS[Theme].PRIMARY_WHITE,
         height: 100,
         justifyContent: 'flex-start',
         fontSize: 16,
-        color: '#FFF',
+        color: COLORS[Theme].PRIMARY_WHITE,
         marginVertical: 10,
         textAlignVertical: 'top',
         padding: 10
     },
     Button: {
-        backgroundColor: 'grey',
+        backgroundColor: COLORS[Theme].GRAY,
         borderRadius: 10,
-        borderColor: 'black',
+        borderColor: COLORS[Theme].BLACK,
         justifyContent: 'center',
         alignItems: 'center',
         width: 100,
@@ -337,7 +341,7 @@ const styles = StyleSheet.create({
         height: 45
     },
     text: {
-        color: '#FFF',
+        color: COLORS[Theme].PRIMARY_WHITE,
         fontWeight: '500',
         fontSize: 16
     },
@@ -351,11 +355,11 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     inner: {
-        backgroundColor: '#D17842', width: 120,
+        backgroundColor: COLORS[Theme].ORANGE, width: 120,
         alignItems: "center", justifyContent: "center", height: 50
     },
     white: {
-        color: "#FFF",
+        color: COLORS[Theme].TEXT,
         fontWeight: "bold",
         fontSize: 20,
     },
@@ -364,3 +368,8 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(255, 0, 0, .5)"
     }
 })
+
+const styles = getStyles(colorScheme=='dark'?0:1);
+
+export default AddNotes
+

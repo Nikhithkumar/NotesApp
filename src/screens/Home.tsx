@@ -1,19 +1,34 @@
-import { FlatList, StyleSheet, Text, TextInput, View } from 'react-native'
+import {
+    FlatList, StyleSheet, Text, TextInput, View, Appearance
+} from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+
 import Card from '../components/Card'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { TouchableOpacity } from 'react-native'
 import { useStore } from '../store/store'
 import LottieView from 'lottie-react-native'
+import { COLORS } from '../constants/Colors'
+import '../translation'
+import {Picker} from '@react-native-picker/picker';
+import il8n from '../translation'
+
+const colorScheme = Appearance.getColorScheme();
+console.log(colorScheme)
 
 const Home = ({ navigation }: any) => {
+    const { t } = useTranslation()
     const [limitSearch, setLimitSearch] = useState('')
+    const [selectedLanguage, setSelectedLanguage] = useState('en');
     const NotesList = useStore((state: any) => state.NotesList);
     const [Notes, setNotes]: any = useState([...NotesList])
+    const Theme = useSelector((state: any) => state.theme.data)
+    console.log(Theme)
 
     useEffect(() => {
-        console.log("notesLIst", NotesList)
         setNotes([...NotesList])
     }, [NotesList])
 
@@ -44,23 +59,28 @@ const Home = ({ navigation }: any) => {
         setNotes([...NotesList])
     }
 
+    const onLanguageChange = (language: string) => {
+        il8n.changeLanguage(language)
+        console.log(`Selected language: ${language}`);
+      };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.Text}>NOTES</Text>
+            <Text style={styles.Text}>{t("NOTES")}</Text>
             <View style={styles.search}>
                 <TextInput style={styles.input}
                     underlineColorAndroid='rgba(0,0,0,0)'
-                    placeholder="Search..."
-                    placeholderTextColor="#FFF"
+                    placeholder={t("Search")+"..."}
+                    placeholderTextColor={COLORS[Theme].PRIMARY_WHITE}
                     autoCapitalize="none"
                     value={limitSearch}
                     onChangeText={handleSearch}
                 />
                 <TouchableOpacity activeOpacity={100} style={{ marginRight: 10 }} onPress={handleClear}>
-                    <Ionicons name="close" size={20} color={'#FFFFFF'} />
+                    <Ionicons name="close" size={20} color={COLORS[Theme].PRIMARY_WHITE} />
                 </TouchableOpacity>
             </View>
-            {Notes.length>0?<FlatList
+            {Notes.length > 0 ? <FlatList
                 style={styles.noteList}
                 data={Notes}
                 numColumns={2}
@@ -69,29 +89,38 @@ const Home = ({ navigation }: any) => {
                 renderItem={({ item }) =>
                     <Card navigation={navigation} data={item} index={item.id} />}
                 onEndReachedThreshold={0.1}
-            />:
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-            <LottieView
-                style={{ height: 300 }}
-                source={require('../lottie/nodata.json')}
-                autoPlay={true}
-                loop />
-        </View>
+            /> :
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <LottieView
+                        style={{ height: 300 }}
+                        source={require('../lottie/nodata.json')}
+                        autoPlay={true}
+                        loop />
+                </View>
             }
             <TouchableOpacity onPress={() => navigation.navigate('AddNotes', { data: null })} style={styles.fab}>
-                <FontAwesome5 name="plus" size={20} color={'black'} />
+                <FontAwesome5 name="plus" size={20} color={COLORS[Theme].BLACK} />
             </TouchableOpacity>
+            <Picker
+                selectedValue={selectedLanguage}
+                style={styles.btn}
+                onValueChange={(itemValue) => {
+                    setSelectedLanguage(itemValue);
+                    onLanguageChange(itemValue);
+                }}
+            >
+                <Picker.Item label="English" value="en" />
+                <Picker.Item label="Hindi" value="hi" />
+            </Picker>
         </View>
     )
 }
 
-export default Home
-
-const styles = StyleSheet.create({
+const getStyles = (THEME: number) => StyleSheet.create({
     container: {
         paddingTop: 0,
         justifyContent: 'center',
-        backgroundColor: '#0C0F14',
+        backgroundColor: COLORS[THEME].PRIMARY_BLACK,
         flex: 1,
         paddingHorizontal: 10
     },
@@ -108,7 +137,7 @@ const styles = StyleSheet.create({
         height: 37,
         borderColor: '#999',
         borderWidth: 0,
-        color: '#FFF',
+        color: COLORS[THEME].PRIMARY_WHITE,
         flex: 1,
     },
     search: {
@@ -123,10 +152,10 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.6,
         elevation: 3,
-        borderColor: '#FFFFFF',
+        borderColor: COLORS[THEME].PRIMARY_WHITE,
         borderWidth: 0.5,
         borderRadius: 25,
-        backgroundColor: '#141921',
+        backgroundColor: COLORS[THEME].BLACK,
         opacity: 0.9,
         width: 304,
         top: 0,
@@ -134,7 +163,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'center'
-
     },
     fab: {
         position: 'absolute',
@@ -144,16 +172,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         right: 20,
         bottom: 30,
-        backgroundColor: '#FFF',
+        backgroundColor: COLORS[THEME].PRIMARY_WHITE,
         borderRadius: 30,
         elevation: 2,
-        color: '#000'
+        color: COLORS[THEME].BLACK
     },
     Text: {
         fontSize: 20,
-        color: '#FFF',
+        color: COLORS[THEME].PRIMARY_WHITE,
         textAlign: 'center',
         fontWeight: 'bold',
         margin: 20
+    },
+    btn: {
+        alignSelf: 'center',
+        width: 150,
+        height: 40,
+        borderRadius: 5,
+        borderColor:COLORS[THEME].PRIMARY_WHITE
     }
 })
+
+
+const styles = getStyles(colorScheme == 'dark' ? 0 : 1);
+
+export default Home
+
+
+
+
+

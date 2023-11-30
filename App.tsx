@@ -9,43 +9,57 @@ import CalendarScreen from './src/screens/Calendar'
 import GoogleScanner from './src/screens/GoogleScanner'
 import Scanner from './src/screens/Scanner'
 import AnimatedTextInput from './src/screens/AnimatedTextInput'
+import { Appearance } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeTheme } from './src/redux/ThemeSlice'
 //import SplashScreen from 'react-native-splash-screen'
 
-const Stack=createNativeStackNavigator()
+const Stack = createNativeStackNavigator()
 
 const App = () => {
+  const colorScheme = Appearance.getColorScheme();
+  const dispatch = useDispatch()
 
-  // useEffect(()=>{
-  //   SplashScreen.hide()
-  // },[])
+  const changeColor = () => {
+    if (colorScheme == "dark") {
+      dispatch(changeTheme(0))
+    }
+    else {
+      dispatch(changeTheme(1))
+    }
+  }
+
+  useEffect(() => {
+    changeColor()
+  }, [colorScheme])
 
   return (
     <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          headerShown:false
-        }}>
-          <Stack.Screen name="Home" component={Home}  options={{
-            animation:'slide_from_bottom'
-          }}/>
-          <Stack.Screen name='AddNotes' component={AddNotes} options={{
-            animation:'slide_from_bottom'
-          }}/>
-           <Stack.Screen name='ChatStack' component={ChatStack} options={{
-            animation:'slide_from_bottom'
-          }}/>
-           <Stack.Screen name='Calendar' component={CalendarScreen} options={{
-            animation:'slide_from_bottom'
-          }}/>
-           <Stack.Screen name='GoogleScanner' component={GoogleScanner} options={{
-            animation:'slide_from_bottom'
-          }}/>
-           <Stack.Screen name='Scanner' component={Scanner} options={{
-            animation:'slide_from_bottom'
-          }}/>
-          <Stack.Screen name='AnimatedTextInput' component={AnimatedTextInput} options={{
-            animation:'slide_from_bottom'
-          }}/>
-        </Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerShown: false
+      }}>
+        <Stack.Screen name="Home" component={Home} options={{
+          animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name='AddNotes' component={AddNotes} options={{
+          animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name='ChatStack' component={ChatStack} options={{
+          animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name='Calendar' component={CalendarScreen} options={{
+          animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name='GoogleScanner' component={GoogleScanner} options={{
+          animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name='Scanner' component={Scanner} options={{
+          animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name='AnimatedTextInput' component={AnimatedTextInput} options={{
+          animation: 'slide_from_bottom'
+        }} />
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }
