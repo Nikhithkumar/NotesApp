@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,memo, useEffect } from 'react';
 import { Animated, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { XStyleSheet } from '../theme/Responsive';
 
 const  AnimatedInput=({ value, onChange, placeholder, multiline }:any)=> {
-    
     const [inputHeight, setHeight] :any= useState(null);
     const [placeholderWidth, setWidth] = useState(null);
     const animation = useRef(new Animated.Value(0)).current;
@@ -58,9 +58,9 @@ const  AnimatedInput=({ value, onChange, placeholder, multiline }:any)=> {
     );
 }
 
-export default AnimatedInput
+export default memo(AnimatedInput)
 
-const styles = StyleSheet.create({
+const styles = XStyleSheet.create({
     container: {
         padding: 20,
     },

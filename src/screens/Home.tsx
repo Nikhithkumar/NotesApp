@@ -4,7 +4,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import Card from '../components/Card'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -15,9 +15,9 @@ import { COLORS } from '../constants/Colors'
 import '../translation'
 import {Picker} from '@react-native-picker/picker';
 import il8n from '../translation'
+import { XStyleSheet } from '../theme/Responsive'
 
 const colorScheme = Appearance.getColorScheme();
-console.log(colorScheme)
 
 const Home = ({ navigation }: any) => {
     const { t } = useTranslation()
@@ -26,7 +26,6 @@ const Home = ({ navigation }: any) => {
     const NotesList = useStore((state: any) => state.NotesList);
     const [Notes, setNotes]: any = useState([...NotesList])
     const Theme = useSelector((state: any) => state.theme.data)
-    console.log(Theme)
 
     useEffect(() => {
         setNotes([...NotesList])
@@ -66,7 +65,7 @@ const Home = ({ navigation }: any) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.Text}>{t("NOTES")}</Text>
+            <Animated.Text entering={FadeOut.duration(1000)} style={styles.Text}>{t("NOTES")}</Animated.Text>
             <View style={styles.search}>
                 <TextInput style={styles.input}
                     underlineColorAndroid='rgba(0,0,0,0)'

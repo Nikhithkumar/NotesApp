@@ -9,10 +9,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { COLORS } from '../constants/Colors';
 import { useSelector } from 'react-redux';
+import { XStyleSheet } from '../theme/Responsive';
 
 const w = Dimensions.get('window').width
 const colorScheme = Appearance.getColorScheme();
-console.log(colorScheme)
 
 const AddNotes = ({ navigation, route }: any) => {
 
@@ -28,10 +28,9 @@ const AddNotes = ({ navigation, route }: any) => {
     const deleteToNote = useStore((state: any) => state.deleteNote)
     const updateToNote = useStore((state: any) => state.updateNote)
     const Theme = useSelector((state: any) => state.theme.data)
-    
+
     const d = new Date();
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    const Screens: any = ['ChatStack', 'Calendar', 'GoogleScanner',"AnimatedTextInput"]
     const { data, index }: any = route?.params
 
     useEffect(() => {
@@ -190,7 +189,7 @@ const AddNotes = ({ navigation, route }: any) => {
                 <View style={styles.outer}>
                     <Animated.View style={[styles.height, heightStyle]}>
                         <Animated.View style={[styles.inner, innerStyle]}>
-                            <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>{data.slice(0, 10)}</Text>
+                            <Text style={[styles.white, { color: COLORS[Theme].PRIMARY_WHITE }]}>{data.slice(0, 10)}</Text>
                         </Animated.View>
                     </Animated.View>
                 </View>
@@ -199,7 +198,7 @@ const AddNotes = ({ navigation, route }: any) => {
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='always' keyboardDismissMode='interactive'>
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='handled' keyboardDismissMode='interactive'>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name='arrowleft' color={COLORS[Theme].PRIMARY_WHITE} size={20} />
@@ -233,7 +232,7 @@ const AddNotes = ({ navigation, route }: any) => {
                             <View style={styles.outer}>
                                 <Animated.View style={[styles.height, heightStyle]}>
                                     <Animated.View style={[styles.inner, innerStyle]}>
-                                        <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>Delete Note</Text>
+                                        <Text style={[styles.white, { color: COLORS[Theme].PRIMARY_WHITE }]}>Delete Note</Text>
                                     </Animated.View>
                                 </Animated.View>
                             </View>
@@ -242,7 +241,7 @@ const AddNotes = ({ navigation, route }: any) => {
                             <View style={styles.outer}>
                                 <Animated.View style={[styles.height, updateStyle]}>
                                     <Animated.View style={[styles.inner, updateInnerStyle]}>
-                                        <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>Update Note</Text>
+                                        <Text style={[styles.white, { color: COLORS[Theme].PRIMARY_WHITE }]}>Update Note</Text>
                                     </Animated.View>
                                 </Animated.View>
                             </View>
@@ -253,17 +252,22 @@ const AddNotes = ({ navigation, route }: any) => {
                         <View style={styles.outer}>
                             <Animated.View style={[styles.height, heightStyle]}>
                                 <Animated.View style={[styles.inner, innerStyle]}>
-                                    <Text style={[styles.white,{color:COLORS[Theme].PRIMARY_WHITE}]}>Add Note</Text>
+                                    <Text style={[styles.white, { color: COLORS[Theme].PRIMARY_WHITE }]}>Add Note</Text>
                                 </Animated.View>
                             </Animated.View>
                         </View>
                     </TouchableWithoutFeedback>}
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', flexWrap: 'wrap',marginTop:30 }}>
-                {Screens.map((data:any, index:any) => (
+
+            <TouchableOpacity style={styles.ResponsiveBtn} onPress={() => navigation.navigate('Examples')}>
+                <Text style={styles.ResposiveText}>Examples</Text>
+            </TouchableOpacity>
+            {/* <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', flexWrap: 'wrap', marginTop: 30 }}>
+                {Screens.map((data: any, index: any) => (
                     <AnimatedButton key={index} data={data} index={index} />
                 ))}
-            </View>
+            </View> */}
+
             <Modal visible={visible} transparent={true} animationType='fade'>
                 <TouchableWithoutFeedback onPress={() => setVisible(false)}>
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} >
@@ -274,10 +278,10 @@ const AddNotes = ({ navigation, route }: any) => {
                             <Text style={{ fontSize: 20, color: COLORS[Theme].PRIMARY_WHITE, fontWeight: '800' }}>{error}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                 <TouchableOpacity style={{
-                                    backgroundColor:COLORS[Theme].ORANGE, width: 60, height: 40, borderRadius: 10,
+                                    backgroundColor: COLORS[Theme].ORANGE, width: 60, height: 40, borderRadius: 10,
                                     alignItems: 'center', justifyContent: 'center', alignSelf: 'center'
                                 }} onPress={() => setVisible(false)}>
-                                    <Text style={{ textAlign: 'right', fontWeight: 'bold', color:COLORS[Theme].TEXT}}>Close</Text>
+                                    <Text style={{ textAlign: 'right', fontWeight: 'bold', color: COLORS[Theme].TEXT }}>Close</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -289,9 +293,9 @@ const AddNotes = ({ navigation, route }: any) => {
 }
 
 
-const getStyles=(Theme:number) =>StyleSheet.create({
+const getStyles = (Theme: number) => XStyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         padding: 20,
         backgroundColor: COLORS[Theme].PRIMARY_BLACK,
     },
@@ -366,10 +370,26 @@ const getStyles=(Theme:number) =>StyleSheet.create({
     height: {
         borderRadius: 16,
         backgroundColor: "rgba(255, 0, 0, .5)"
+    },
+    ResponsiveBtn: {
+        alignSelf: 'center',
+        borderRadius: 10,
+        borderColor: COLORS[Theme].PRIMARY_WHITE,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 50,
+        width: 100,
+        borderWidth: 1,
+        marginTop: 10
+    },
+    ResposiveText: {
+        fontSize: 16,
+        color: COLORS[Theme].PRIMARY_WHITE,
+        fontWeight: '500'
     }
 })
 
-const styles = getStyles(colorScheme=='dark'?0:1);
+const styles = getStyles(colorScheme == 'dark' ? 0 : 1);
 
 export default AddNotes
 

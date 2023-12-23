@@ -1,10 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
+import { COLORS } from '../constants/Colors'
+import { useSelector } from 'react-redux'
 
 const Card = ({ navigation, data, index }: any) => {
-
-
+    const Theme = useSelector((state: any) => state.theme.data)
     return (
         <TouchableOpacity key={index}
             onPress={() => { navigation.navigate('AddNotes', { data, index }) }}>
@@ -12,12 +13,12 @@ const Card = ({ navigation, data, index }: any) => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.card}
-                colors={['#252A32', '#0C0F14']}>
+                colors={[COLORS[Theme].LINER, COLORS[Theme].BLACK]}>
 
-                <Text style={styles.create}>{data?.OrderDate?.slice(0, 6)}</Text>
-                <Text numberOfLines={1} style={styles.title}>{data.title}</Text>
-                <Text numberOfLines={1} style={styles.category}>{data.Category}</Text>
-                <Text numberOfLines={4} style={styles.note}>{data.Discription}</Text>
+                <Text style={[styles.create,{color:COLORS[Theme].PRIMARY_WHITE}]}>{data?.OrderDate?.slice(0, 6)}</Text>
+                <Text numberOfLines={1} style={[styles.title,{color:COLORS[Theme].PRIMARY_WHITE}]}>{data.title}</Text>
+                <Text numberOfLines={1} style={[styles.category,{color:COLORS[Theme].PRIMARY_WHITE}]}>{data.Category}</Text>
+                <Text numberOfLines={4} style={[styles.note,{color:COLORS[Theme].PRIMARY_WHITE}]}>{data.Discription}</Text>
             </LinearGradient>
         </TouchableOpacity>
     )

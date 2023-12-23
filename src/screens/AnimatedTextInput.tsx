@@ -1,11 +1,20 @@
 import React, { useRef, useState } from 'react';
-import { Animated, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Animated, Dimensions, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import AnimatedInput from '../components/AnimatedInput';
+import ButtonContainer from '../components/ButtonContainer';
+
+const width=Dimensions.get('window').width
 
 export default function AnimatedTextInput() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
+    const scrollViewRef:any = useRef(null);
+
+    const scrollX = useRef(new Animated.Value(0)).current;
+    const buttons = ['btn 1', 'btn 2', 'btn 3', 'btn 4', 'btn 5'];
+
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <AnimatedInput value={name} onChange={setName} placeholder="Name" />
@@ -16,6 +25,7 @@ export default function AnimatedTextInput() {
                 placeholder="Address"
                 multiline
             />
+            <ButtonContainer buttons={buttons} onClick={()=>{}} scrollX={scrollX} />
         </ScrollView>
     );
 }
@@ -25,6 +35,6 @@ const styles = StyleSheet.create({
     container: {
         padding: 20,
         backgroundColor:'#0C0F14',
-        flex:1
+        flexGrow:1
     },
 });

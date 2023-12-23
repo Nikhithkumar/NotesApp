@@ -12,6 +12,11 @@ import AnimatedTextInput from './src/screens/AnimatedTextInput'
 import { Appearance } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeTheme } from './src/redux/ThemeSlice'
+import Responsive from './src/screens/Responsive'
+import BugerStack from './src/navigation/BugerStack'
+import Examples from './src/screens/Examples'
+import { AuthProvider } from './src/screens/ContextApp'
+import Context from './src/screens/ContextApp/components/App'
 //import SplashScreen from 'react-native-splash-screen'
 
 const Stack = createNativeStackNavigator()
@@ -57,6 +62,18 @@ const App = () => {
           animation: 'slide_from_bottom'
         }} />
         <Stack.Screen name='AnimatedTextInput' component={AnimatedTextInput} options={{
+          animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name='Responsive' component={Responsive} options={{
+          animation: 'slide_from_bottom'
+        }} />
+         <Stack.Screen name='BugerList' component={BugerStack} options={{
+          animation: 'slide_from_bottom'
+        }} />
+         <Stack.Screen name='Examples' component={Examples} options={{
+          animation: 'slide_from_bottom'
+        }} />
+         <Stack.Screen name='Context' component={Context} options={{
           animation: 'slide_from_bottom'
         }} />
       </Stack.Navigator>
