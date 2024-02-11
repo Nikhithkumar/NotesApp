@@ -8,7 +8,8 @@ const width = Dimensions.get('screen').width
 const colorScheme = Appearance.getColorScheme();
 
 const Examples = () => {
-    const Screens: string[] = ['ChatStack', 'Calendar', 'GoogleScanner', "AnimatedTextInput", "BugerList", "Responsive","Context"]
+    const Screens: string[] = ['ChatStack', 'Calendar', 'GoogleScanner', "AnimatedTextInput", "BugerList",
+     "Responsive","Context","Shoe","SwipeApp","GoogleLogin"]
     const navigation: any = useNavigation()
 
     return (

@@ -17,6 +17,9 @@ import BugerStack from './src/navigation/BugerStack'
 import Examples from './src/screens/Examples'
 import { AuthProvider } from './src/screens/ContextApp'
 import Context from './src/screens/ContextApp/components/App'
+import ShopApp from './src/screens/3DApp/App'
+import SwipeApp from './src/screens/Animated/SwipeToDelete'
+import GoogleLogin from './src/screens/GoogleAuth/GoogleLogin'
 //import SplashScreen from 'react-native-splash-screen'
 
 const Stack = createNativeStackNavigator()
@@ -67,14 +70,23 @@ const App = () => {
         <Stack.Screen name='Responsive' component={Responsive} options={{
           animation: 'slide_from_bottom'
         }} />
-         <Stack.Screen name='BugerList' component={BugerStack} options={{
+        <Stack.Screen name='BugerList' component={BugerStack} options={{
           animation: 'slide_from_bottom'
         }} />
-         <Stack.Screen name='Examples' component={Examples} options={{
+        <Stack.Screen name='Examples' component={Examples} options={{
           animation: 'slide_from_bottom'
         }} />
-         <Stack.Screen name='Context' component={Context} options={{
+        <Stack.Screen name='Context' component={Context} options={{
           animation: 'slide_from_bottom'
+        }} />
+        <Stack.Screen name="Shoe" component={ShopApp} options={{ 
+          animation: 'slide_from_bottom' 
+        }} />
+        <Stack.Screen name="SwipeApp" component={SwipeApp} options={{ 
+          animation: 'slide_from_bottom' 
+          }} />
+        <Stack.Screen name="GoogleLogin" component={GoogleLogin} options={{ 
+          animation: 'slide_from_bottom' 
         }} />
       </Stack.Navigator>
     </NavigationContainer>
